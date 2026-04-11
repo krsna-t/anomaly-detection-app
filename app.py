@@ -1,5 +1,8 @@
 import streamlit as st
-import tensorflow as tf
+try:
+    import tflite_runtime.interpreter as tflite
+except ImportError:
+    import tensorflow.lite as tflite
 import numpy as np
 from PIL import Image
 import time
@@ -8,7 +11,7 @@ import os
 # Load TFLite model and allocate tensors
 @st.cache_resource
 def load_model():
-    interpreter = tf.lite.Interpreter(model_path="model.tflite")
+    interpreter = tflite.Interpreter(model_path="model.tflite")
     interpreter.allocate_tensors()
     return interpreter
 
